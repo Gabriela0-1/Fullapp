@@ -134,7 +134,7 @@ def registrar_empleado(request):
             return redirect('listar_empleados')
     else:
         form = EmpleadoForm()
-    return render(request, 'Empleado/registrar/registrar_empleado.html', {'form': form})
+    return render(request,'Empleado/registrar/registrar_empleado.html', {'form': form})
 
 # Vistas para Registro de Acceso
 def listar_registros_acceso(request):
