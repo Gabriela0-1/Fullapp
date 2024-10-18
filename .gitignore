@@ -1,0 +1,8 @@
+# created by virtualenv automatically
+# Ignorar todos los archivos de Python de caché
+*.pyc
+__pycache__/
+# Ignorar el archivo de base de datos
+db.sqlite3
+# Otras cosas que quieras ignorar
+venv/
