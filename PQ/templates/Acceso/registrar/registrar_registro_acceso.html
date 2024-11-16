@@ -9,32 +9,39 @@
     <style>
         body {
             padding: 20px;
-            background-color: #f0f8ff; /* Azul claro */
+            background-color: #f0f8ff;
         }
         .navbar {
-            background-color: #aeeeee; /* Azul claro */
+            background-color: #aeeeee;
         }
         .nav-link {
             font-weight: bold;
-            color: #007bff; /* Azul más oscuro para el texto */
+            color: #007bff;
         }
         .nav-link:hover {
-            color: #0056b3; /* Azul más oscuro al pasar el ratón */
+            color: #0056b3;
         }
         .btn-primary {
-            background-color: #5f9ea0; /* Azul claro */
-            border-color: #5f9ea0; /* Mismo color de borde */
+            background-color: #5f9ea0;
+            border-color: #5f9ea0;
         }
         .btn-primary:hover {
-            background-color: #4682b4; /* Azul más oscuro al pasar el ratón */
-            border-color: #4682b4; /* Mismo color de borde al pasar el ratón */
+            background-color: #4682b4;
+            border-color: #4682b4;
+        }
+        .btn-secondary {
+            background-color: #d3d3d3;
+            border-color: #d3d3d3;
+        }
+        .btn-secondary:hover {
+            background-color: #c0c0c0;
+            border-color: #c0c0c0;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Barra de Navegación -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="#">Sistema de Parqueaderos</a>
@@ -55,31 +62,49 @@
         </div>
     </nav>
 
-    <!-- Contenido Principal -->
     <div class="container mt-5">
         <h1 class="text-center text-primary">Registrar Acceso</h1>
 
         <form method="POST" action="{% url 'registrar_registro_acceso' %}">
             {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Hubo un problema con el formulario:</strong>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             <div class="form-group">
                 <label for="empleado">Empleado</label>
                 <select class="form-control" id="empleado" name="empleado" required>
                     {% for empleado in empleados %}
-                        <option value="{{ empleado.id }}">{{ empleado.nombre }} {{ empleado.apellido }}</option>
+                        <option value="{{ empleado.id }}" {% if form.empleado.value == empleado.id %}selected{% endif %}>
+                            {{ empleado.nombre }} {{ empleado.apellido }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
+
             <div class="form-group">
                 <label for="fecha">Fecha de Acceso</label>
-                <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+                <input type="datetime-local" class="form-control" id="fecha" name="fecha" value="{{ form.fecha.value }}" required>
             </div>
+
             <div class="form-group">
                 <label for="tipo">Tipo de Acceso</label>
                 <select class="form-control" id="tipo" name="tipo" required>
-                    <option value="entrada">Entrada</option>
-                    <option value="salida">Salida</option>
+                    <option value="entrada" {% if form.tipo.value == 'entrada' %}selected{% endif %}>Entrada</option>
+                    <option value="salida" {% if form.tipo.value == 'salida' %}selected{% endif %}>Salida</option>
                 </select>
             </div>
+
             <button type="submit" class="btn btn-primary btn-lg btn-block">Registrar Acceso</button>
         </form>
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cliente, Carro, Parqueadero, Reserva, Factura, Empleado, RegistroAcceso
@@ -48,7 +48,11 @@ def listar_carros(request):
     carros = Carro.objects.all()
     return render(request, 'carros/listar_carros.html', {'carros': carros})
 
+from django.shortcuts import render
+from .models import Cliente
+
 def registrar_carro(request):
+    clientes = Cliente.objects.all() 
     if request.method == 'POST':
         form = CarroForm(request.POST)
         if form.is_valid():
@@ -56,7 +60,8 @@ def registrar_carro(request):
             return redirect('listar_carros')
     else:
         form = CarroForm()
-    return render(request, 'carros/registrar/registrar_carro.html', {'form': form})
+
+    return render(request, 'carros/registrar/registrar_carro.html', {'form': form, 'clientes': clientes})
 
 def actualizar_carro(request, carro_id):
     carro = get_object_or_404(Carro, pk=carro_id)
@@ -89,8 +94,8 @@ def registrar_parqueadero(request):
             return redirect('listar_parqueaderos')
     else:
         form = ParqueaderoForm()
-    return render(request, 'parqueaderos/registrar/registrar_parqueadero.html', {'form': form})
 
+    return render(request, 'parqueaderos/registrar/registrar_parqueadero.html', {'form': form})
 # Vistas para Reserva
 def listar_reservas(request):
     reservas = Reserva.objects.all()
@@ -103,8 +108,11 @@ def registrar_reserva(request):
             form.save()
             return redirect('listar_reservas')
     else:
+        clientes = Cliente.objects.all()
+        carros = Carro.objects.all()
         form = ReservaForm()
-    return render(request, 'reservas/registrar/registrar_reserva.html', {'form': form})
+
+    return render(request, 'reservas/registrar/registrar_reserva.html', {'form': form, 'clientes': clientes, 'carros': carros})
 
 # Vistas para Factura
 def listar_facturas(request):
@@ -119,8 +127,10 @@ def registrar_factura(request):
             return redirect('listar_facturas')
     else:
         form = FacturaForm()
-    return render(request, 'Factura/registrar/registrar_factura.html', {'form': form})
 
+    
+    reservas = Reserva.objects.all()  
+    return render(request, 'Factura/registrar/registrar_factura.html', {'form': form, 'reservas': reservas})
 # Vistas para Empleado
 def listar_empleados(request):
     empleados = Empleado.objects.all()
@@ -130,11 +140,11 @@ def registrar_empleado(request):
     if request.method == 'POST':
         form = EmpleadoForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('listar_empleados')
+            form.save()  
+            return redirect('listar_empleados') 
     else:
-        form = EmpleadoForm()
-    return render(request,'Empleado/registrar/registrar_empleado.html', {'form': form})
+        form = EmpleadoForm() 
+    return render(request, 'Empleado/registrar/registrar_empleado.html', {'form': form})
 
 # Vistas para Registro de Acceso
 def listar_registros_acceso(request):
@@ -145,8 +155,11 @@ def registrar_registro_acceso(request):
     if request.method == 'POST':
         form = RegistroAccesoForm(request.POST)
         if form.is_valid():
+           #aqui lo agregamos :)
             form.save()
-            return redirect('listar_registros_acceso')
+            return redirect('listar_registros_acceso')  # Redirigir después de guardar
     else:
         form = RegistroAccesoForm()
+
     return render(request, 'Acceso/registrar/registrar_registro_acceso.html', {'form': form})
+    

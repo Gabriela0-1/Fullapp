@@ -9,25 +9,33 @@
     <style>
         body {
             padding: 20px;
-            background-color: #f0f8ff; /* Azul claro */
+            background-color: #f0f8ff;
         }
         .navbar {
-            background-color: #aeeeee; /* Azul claro */
+            background-color: #aeeeee;
         }
         .nav-link {
             font-weight: bold;
-            color: #007bff; /* Azul más oscuro para el texto */
+            color: #007bff;
         }
         .nav-link:hover {
-            color: #0056b3; /* Azul más oscuro al pasar el ratón */
+            color: #0056b3;
         }
         .btn-primary {
-            background-color: #5f9ea0; /* Azul claro */
-            border-color: #5f9ea0; /* Mismo color de borde */
+            background-color: #5f9ea0;
+            border-color: #5f9ea0;
         }
         .btn-primary:hover {
-            background-color: #4682b4; /* Azul más oscuro al pasar el ratón */
-            border-color: #4682b4; /* Mismo color de borde al pasar el ratón */
+            background-color: #4682b4;
+            border-color: #4682b4;
+        }
+        .btn-secondary {
+            background-color: #d3d3d3;
+            border-color: #d3d3d3;
+        }
+        .btn-secondary:hover {
+            background-color: #c0c0c0;
+            border-color: #c0c0c0;
         }
     </style>
 </head>
@@ -63,23 +71,15 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="placa">Placa</label>
-                <input type="text" class="form-control" id="placa" name="placa" required>
+                {{ form.placa }} <!-- Renderiza el campo placa con el widget -->
+            </div>
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                {{ form.marca }}
             </div>
             <div class="form-group">
                 <label for="modelo">Modelo</label>
-                <input type="text" class="form-control" id="modelo" name="modelo" required>
-            </div>
-            <div class="form-group">
-                <label for="color">Color</label>
-                <input type="text" class="form-control" id="color" name="color" required>
-            </div>
-            <div class="form-group">
-                <label for="propietario">Propietario</label>
-                <select class="form-control" id="propietario" name="propietario" required>
-                    {% for cliente in clientes %}
-                        <option value="{{ cliente.id }}">{{ cliente.nombre }} {{ cliente.apellido }}</option>
-                    {% endfor %}
-                </select>
+                {{ form.modelo }}
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Registrar Carro</button>
         </form>

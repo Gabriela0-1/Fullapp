@@ -82,24 +82,11 @@
         <h1 class="text-center text-primary">Registrar Nuevo Cliente</h1>
         <p class="text-center">Complete el siguiente formulario para registrar un nuevo cliente.</p>
 
+        <!-- Formulario de Django -->
         <form method="POST" action="{% url 'registrar_cliente' %}">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div>
-            <div class="form-group">
-                <label for="apellido">Apellido:</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" required>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="text" class="form-control" id="telefono" name="telefono" required>
-            </div>
-            <div class="form-group">
-                <label for="carro">Carro:</label>
-                <input type="text" class="form-control" id="carro" name="carro" required>
-            </div>
+            {{ form.as_p }}  <!-- Mostrar el formulario renderizado de Django -->
+
             <div class="text-center">
                 <button type="submit" class="btn btn-primary btn-lg mx-2">Registrar Cliente</button>
                 <a href="{% url 'listar_clientes' %}" class="btn btn-secondary btn-lg mx-2">Volver a la Lista de Clientes</a>

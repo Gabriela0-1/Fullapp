@@ -11,21 +11,23 @@ class Cliente(models.Model):
         return f"{self.nombre} {self.apellido}"
 
 class Carro(models.Model):
+    
     modelo = models.CharField(max_length=100)
     marca = models.CharField(max_length=100)
     placa = models.CharField(max_length=10)
+     
 
     def __str__(self):
         return self.placa
 
 class Parqueadero(models.Model):
     nombre = models.CharField(max_length=100)
-    ubicacion = models.CharField(max_length=200)
-    tarifa_por_hora = models.DecimalField(max_digits=6, decimal_places=2)
+    ubicacion = models.CharField(max_length=255)
     capacidad = models.IntegerField()
 
     def __str__(self):
         return self.nombre
+
 
 class Reserva(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
@@ -33,6 +35,9 @@ class Reserva(models.Model):
     fecha_inicio = models.DateTimeField()
     fecha_final = models.DateTimeField()
     estado = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"Reserva de {self.cliente} para el carro {self.carro} desde {self.fecha_inicio} hasta {self.fecha_final}"
     
 
     def __str__(self):
@@ -48,13 +53,14 @@ class Factura(models.Model):
 
 class Empleado(models.Model):
     nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)  
     ubicacion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=15)
     correo = models.EmailField()
 
     def __str__(self):
-
-        return self.nombre
+        
+        return f"{self.nombre} {self.apellido}"  
 
 class RegistroAcceso(models.Model):
     parqueadero = models.ForeignKey(Parqueadero, on_delete=models.CASCADE)
